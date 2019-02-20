@@ -33,6 +33,13 @@ return [
 
     'connections' => [
 
+        // ★ この設定を追加
+        'mysql_testing' => [
+            'driver' => 'mysql',
+            'database' => ':memory:',
+            'prefix' => '',
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
