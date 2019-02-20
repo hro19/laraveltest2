@@ -15,9 +15,8 @@
 //     return view('welcome');
 // });
 
-
-Route::resource('sample', 'samplesController');
-Route::get('sample','samplesController@index');
+Route::get('/samples','samplesController@index');
+Route::get('/samples/{id}','samplesController@show');
 
 Route::group(['middleware' => 'auth'], function() {
 
@@ -37,7 +36,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/folders/{id}/tasks/{task_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
 	Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
 });
-Auth::routes();
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

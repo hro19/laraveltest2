@@ -59,7 +59,9 @@ class samplesController extends Controller
      */
     public function show($id)
     {
-        //
+        $massage = '詳細ページです';
+        $sample = Sample::find($id);
+        return view('sample.show',compact('sample','massage'));
     }
 
     /**
