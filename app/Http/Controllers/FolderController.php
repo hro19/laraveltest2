@@ -26,4 +26,15 @@ class FolderController extends Controller
             'id' => $folder->id,
         ]);
     }
+
+    public function destroy($id)
+    {
+        Folder::destroy($id);
+
+        $folder_first = Folder::first();
+
+        return redirect()->route('tasks.index', [
+            'id' => $folder_first->id,
+        ]);
+    }
 }

@@ -26,7 +26,7 @@ class CreateTask extends FormRequest
         return [
             'title' => 'required|max:100',
             //5.4からの機能
-            //'due_date' => 'required|date|after_or_equal:today',
+            'due_date' => 'required|date|after_or_equal:today',
         ];
     }
 

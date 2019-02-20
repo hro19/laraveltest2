@@ -19,6 +19,8 @@
           >
           {{ $folder->title }}
         </a>
+          <a href="{{ route('folders.destroy', ['id' => $folder->id]) }}">フォルダ削除</a>
+
         @endforeach
       </div>
     </nav>
@@ -54,6 +56,7 @@
               <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
                 編集
               </a>
+              <a href="{{ route('tasks.delete',  ['id' => $task->folder_id, 'task_id' => $task->id]) }}">タスク削除</a>
             </td>
           </tr>
           @endforeach

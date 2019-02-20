@@ -26,6 +26,18 @@
                 <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" />
               </div>
               <div class="form-group">
+                <label for="status">状態</label>
+                <select name="status" id="status" class="form-control">
+                  @foreach(\App\Task::STATUS as $key => $val)
+                    <option
+                        value="{{ $key }}"
+                    >
+                      {{ $val['label'] }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
                 <label for="due_date">期限</label>
                 <input type="text" class="form-control" name="due_date" id="due_date" value="{{ old('due_date') }}" />
               </div>

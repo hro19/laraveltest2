@@ -29,8 +29,14 @@ class TaskController extends Controller
 
         // 選ばれたフォルダに紐づくタスクを取得する
         //$tasks = Task::where('folder_id', $current_folder->id)->get();
-        $tasks = $current_folder->tasks()->get();
-        
+        //$tasks = $current_folder->tasks()->get();
+
+        //①完了②着手中③未着手の順番に並びようにする。
+        $tasks = $current_folder->tasks()
+        ->orderBy('status', 'desc')
+        ->orderBy('id', 'asc')
+        ->get();
+
         return view('tasks/index', [
             'folders' => $folders,
             'current_folder_id' => $current_folder->id,
@@ -62,8 +68,8 @@ class TaskController extends Controller
 
         $task = new Task();
         $task->title = $request->title;
+        $task->status = $request->status;
         $task->due_date = $request->due_date;
-
         $current_folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
@@ -134,8 +140,11 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id,$task_id)
     {
-        //
+        \App\Task::destroy($task_id);
+        return redirect()->route('tasks.index', [
+            'id' => $id,
+        ]);
     }
 }

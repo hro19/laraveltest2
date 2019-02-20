@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+//
+//use Illuminate\Http\Request;
 use App\Sample;
 //use App\Folder;
-
-use App\Http\Requests;
+use Request;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class samplesController extends Controller
@@ -30,25 +30,19 @@ class samplesController extends Controller
         return view('sample.index',compact('samples','mes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function showCreateForm()
     {
-        //
+        return view('sample/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create()
     {
-        //
+        $sample = new Sample();
+        $sample->title = Request::input('title');
+        $sample->body = Request::input('body');
+        $sample->username = Request::input('username');
+        $sample->save();
+        return redirect()->route('samples.index');
     }
 
     /**
