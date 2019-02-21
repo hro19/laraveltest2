@@ -4,6 +4,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Category');
+    }
+
     /**
      * 状態定義
      */
@@ -49,4 +55,17 @@ class Task extends Model
         return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
             ->format('Y/m/d');
     }
+
+    public function getDueDateYmdAttribute()
+    {
+        return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
+            ->format('Y年m月d日');
+    }
+
+    public function getDueDateYobiAttribute()
+    {
+        $dt = new Carbon($this->attributes['due_date']);
+        return ['日','月','火','水','木','金','土'][$dt->dayOfWeek];
+    }
+
 }

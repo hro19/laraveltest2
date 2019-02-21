@@ -23,10 +23,10 @@ class TaskController extends Controller
     {
         // すべてのフォルダを取得する
         $folders = Auth::user()->folders()->get();
+//dump($folders);
 
         // 選ばれたフォルダを取得する
         $current_folder = Folder::find($id);
-
         // 選ばれたフォルダに紐づくタスクを取得する
         //$tasks = Task::where('folder_id', $current_folder->id)->get();
         //$tasks = $current_folder->tasks()->get();
@@ -36,7 +36,9 @@ class TaskController extends Controller
         ->orderBy('status', 'desc')
         ->orderBy('id', 'asc')
         ->get();
-
+//dump($tasks);
+//$yyy = collect($tasks)->count();
+//dump($yyy);
         return view('tasks/index', [
             'folders' => $folders,
             'current_folder_id' => $current_folder->id,
@@ -87,9 +89,12 @@ class TaskController extends Controller
     public function showTask($id,$task_id)
     {
         $task = Task::find($task_id);
+        $categories = $task->categories()->get();
+        //dump($categories);
 
         return view('tasks/show',[
             'task' => $task,
+            'categories' => $categories,
         ]);
     }
 
@@ -99,22 +104,34 @@ class TaskController extends Controller
     public function showEditForm($id,$task_id)
     {
         $task = Task::find($task_id);
-
+        $check_categories = $task->categories()->get();
+        $checks = [];
+        foreach($check_categories as $check){
+            $checks[] = $check->id;
+        }
+        //dump($check_categoris);
+        //dump($checks);
         return view('tasks/edit', [
             'task' => $task,
+            'checks' => $checks,
         ]);
     }
 
     public function edit($id,$task_id, EditTask $request)
     {
-        // 1
+        // 新規タスクを作成
         $task = Task::find($task_id);
 
-        // 2
+        // 新規タスクにrequestをセット
         $task->title = $request->title;
         $task->status = $request->status;
         $task->due_date = $request->due_date;
         $task->save();
+
+        //カテゴリーの更新
+        $task->categories = $request->categories;
+        //dump($task->categories);
+        $task->categories()->sync($task->categories);
 
         // 3
         return redirect()->route('tasks.index', [

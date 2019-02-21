@@ -35,7 +35,7 @@
                   @foreach(\App\Task::STATUS as $key => $val)
                     <option
                         value="{{ $key }}"
-                        {{ $task->status }}
+                        {{ $key == old('status', $task->status) ? 'selected' : '' }}
                     >
                       {{ $val['label'] }}
                     </option>
@@ -47,6 +47,21 @@
                 <input type="text" class="form-control" name="due_date" id="due_date"
                        value="{{ $task->formatted_due_date }}" />
               </div>
+
+              <div class="form-group">
+                <label>期限</label>
+                  {{-- @foreach($categories as $category) --}}
+                  @foreach(\App\Category::all()  as $key => $category)
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" name="categories[]" value="{{ $category->id }}"
+                    {{ (in_array($key+1, $checks, true)) ? "checked" : "" }}
+                    >
+                    <label class="form-check-label">{{ $category->name }}</label>
+                  </div>
+          　　　　@endforeach
+
+              </div>
+
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>
               </div>

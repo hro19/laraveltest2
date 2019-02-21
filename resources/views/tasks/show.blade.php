@@ -12,6 +12,11 @@
               <p>{{$task->title}}<p>
               <p>{{ \App\Task::STATUS[$task->status]["label"] }}<p>
               <p>{{$task->due_date}}<p>
+              <ul>
+                  @foreach($categories as $category)
+                <li>【id】{{ $category->id }}、【名前】{{ $category->name }}</li>
+          　　　　@endforeach
+              </ul>
           </div>
         </nav>
       </div>
