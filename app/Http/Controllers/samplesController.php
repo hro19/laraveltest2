@@ -20,11 +20,17 @@ class samplesController extends Controller
     {
         $samples = Sample::all();
         $folders = \App\Folder::all();
+        dump($samples
+            ->take(3)
+            ->toArray()
+        );
+        dump($samples
+            ->where('id', '>', 7)
+        );
         //dump($folders);
         $modelSample = new Sample;
         $mes = $modelSample->WorkItem1();
         //dd($mes);
-        dump($mes);
         //$sampleAll = $modelSample->WorkItem2();
         //dump($sampleAll);
         return view('sample.index',compact('samples','mes'));
